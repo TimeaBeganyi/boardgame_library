@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}
+Details {{ game.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3"><br><br><br>
+                <div class="card">
+                    <img src="{{ boardgame.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-header">
+                        <h4>{{ boardgame.title }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ boardgame.publication_year }}</h5>
+                        <p class="card-text">{{ boardgame.description }} </p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Designer</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.designer }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Artists</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.artists }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Category</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.category }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Players</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.max_players }} (Best {{ boardgame.best_players }})</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Playtime</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.playtime }}min</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Recommended age</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.player_age }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Weight</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.weight }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Language dependence</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ boardgame.language_dependence }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'list-of-boardgames' %}" class="btn btn-outline-secondary">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

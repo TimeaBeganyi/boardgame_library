@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+    Add a new BoardGame
+{% endblock %}
+
+{% block content %}
+    <br><br><br><br>
+    <div class="container">
+        <div class="row"><br><br>
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> Add a new BoardGame</h3>
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            {{ form.as_p }}
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-outline-secondary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

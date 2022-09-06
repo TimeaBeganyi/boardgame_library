@@ -13,9 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
+from django.urls import path, include
+
+from boardgame_library import settings
+from userextend.forms import AuthenticationLoginForm, PasswordChangeFormExtend, PasswordResetFormExtend, \
+    SetPasswordFormExtend
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+
+    path('', include('welcome.urls')),
+    path('', include('boardgames.urls')),
+    path('', include('userextend.urls')),
+    path('login/', LoginView.as_view(form_class=AuthenticationLoginForm), name='login'),
+    path('password_change/', PasswordChangeView.as_view(form_class=PasswordChangeFormExtend), name='password_change'),
+    path('password_reset/', PasswordResetView.as_view(form_class=PasswordResetFormExtend), name='password_reset'),
+    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(form_class=SetPasswordFormExtend), name='password_reset_confirm'),
+    path('', include('django.contrib.auth.urls')),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
