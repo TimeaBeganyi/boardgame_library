@@ -4,63 +4,121 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row justify-content-md-center">
-            <div class="col-8"><br><br><br>
-                <table class="table table-striped table-responsive">
-                    <thead>
-                    <tr class="text-center">
-                        <th>Title</th>
-                        <th>Year</th>
-                        <th>Players</th>
-                        <th>Playtime</th>
-                        <th>Player age</th>
-                        <th>Weight</th>
-                        <th>Designer</th>
-                        <th>Category</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for game in all_boardgames %}
-                        <tr class="text-center">
-                            <td>
-                                <div onclick>
-                                    <a href="{% url 'detail-boardgame' game.id %}">{{ game.title }}</a>
-                                </div>
-                                <div>
-                                    {% if game.image %}
-                                    <img src="{{ game.image.url }}" alt="{{ game.title }}" height="100">
-                                {% else %}
-                                    <img src="{% static 'images/dices.webp' %}" alt="..." height="100">
-                                {% endif %}
-                                </div>
-                            </td>
-                            <td>{{ game.publication_year }}</td>
-                            <td>{{ game.max_players }}</td>
-                            <td>{{ game.playtime }} min</td>
-                            <td>{{ game.player_age }}</td>
-                            <td>{{ game.weight }}</td>
-                            <td>{{ game.designer }}</td>
-                            <td>{{ game.category }}</td>
-                            <td>
-                                <div class="dropdown text-center">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{% url 'update-boardgame' game.id %}"
-                                               class="dropdown-item">Update</a>
-                                        </li>
-                                        <li><a href="{% url 'detail-boardgame' game.id %}"
-                                               class="dropdown-item">Details</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
+        <div class="row">
+            <div class="col-md-4 gy-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> Filter </h3>
+                    </div>
+                    <form method="get">
+                        <div class="card-body">
+                            {{ my_filter.form.as_p }}
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-outline-success">Search</button>
+                            <a href="{% url 'list-of-boardgames' %}" class="btn btn-outline-danger">Reset</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-8 gy-4"><br><br><br>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> List of boardgames </h3>
+                    </div>
+                    {% if all_boardgames %}
+                    <div class="card-body">
+                        <table class="table table-striped table-responsive align-middle">
+                            <thead>
+                            <tr class="text-center">
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Players</th>
+                                <th>Playtime</th>
+                                <th>Player age</th>
+                                <th>Weight</th>
+                                <th>Designer</th>
+                                <th>Category</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for game in all_boardgames %}
+                                <tr class="text-center">
+                                    <td>
+                                        <div>
+                                            {% if game.image %}
+                                                <img src="{{ game.image.url }}" alt="{{ game.title }}" height="64">
+                                            {% else %}
+                                                <img src="{% static 'images/dices.webp' %}" alt="..." height="64">
+                                            {% endif %}
+                                        </div>
+                                        <div onclick>
+                                            <a href="{% url 'detail-boardgame' game.id %}">{{ game.title }}</a>
+                                        </div>
+                                    </td>
+                                    <td>{{ game.publication_year }}</td>
+                                    <td>{{ game.max_players }}</td>
+                                    <td>{{ game.playtime }}</td>
+                                    <td>{{ game.player_age }}</td>
+                                    <td>{{ game.weight }}</td>
+                                    <td>{{ game.designer }}</td>
+                                    <td>{{ game.categories }}</td>
+                                    <td>
+                                        <div class="dropdown text-center">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url 'update-boardgame' game.id %}"
+                                                       class="dropdown-item">Update</a>
+                                                </li>
+                                                <li><a href="{% url 'detail-boardgame' game.id %}"
+                                                       class="dropdown-item">Details</a>
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                            data-bs-target="#game_{{ game.id }}">
+                                                        Delete
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <div class="modal fade" id="game_{{ game.id }}" tabindex="-1"
+                                         aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete {{ game.title }}?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                        No
+                                                    </button>
+                                                    <a href="{% url 'delete-boardgame' game.id %}"
+                                                       class="btn btn-primary">Yes</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                        <div>
+                            <h3 class="text-center">No data available</h3>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

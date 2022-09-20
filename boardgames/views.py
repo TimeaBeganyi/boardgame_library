@@ -1,9 +1,11 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.contrib.sites import requests
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
-from boardgames.forms import BoardgameForm
-from boardgames.models import Boardgame
+from boardgames.filters import BoardgameFilter
+from boardgames.forms import BoardgameForm, BoardgameCommentForm
+from boardgames.models import Boardgame, Favourite, BoardgameComment
 from userextend.models import UserExtend
 
 
@@ -19,6 +21,22 @@ class BoardgameListView(ListView):
     model = Boardgame
     context_object_name = 'all_boardgames'
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        category = self.request.GET.get('category')
+        games = self.object_list
+        if category:
+            games = Boardgame.objects.filter(categories__contains=[category])
+        data['all_boardgames'] = games
+        return data
+
+    def get_context_data_filter(self, **kwargs):
+        data_filter = super(BoardgameListView, self).get_context_data(**kwargs)
+        my_filter = BoardgameFilter(self.request.GET, queryset=Boardgame.objects.all())
+        data_filter['all_boardgames'] = my_filter.qs
+        data_filter['my_filter'] = my_filter
+        return my_filter
+
 
 class BoardgameUpdateView(UpdateView):
     template_name = 'boardgames/update_boardgame.html'
@@ -32,17 +50,20 @@ class BoardgameDetailView(DetailView):
     model = Boardgame
 
 
-# def welcome(request):
-#     num_boardgames = Boardgame.objects.all().count()
-#     num_instances = BoardgameInstance.objects.all().count()
-#     num_instances_available = BoardgameInstance.objects.filter(status__exact='a').count()
-#     num_owner = UserExtend.objects.count()
-#
-#     context = {
-#         'num_boardgames': num_boardgames,
-#         'num_instances': num_instances,
-#         'num_instances_available': num_instances_available,
-#         'num_owner': num_owner,
-#     }
+def delete_boardgame(request, pk):
+    Boardgame.objects.filter(id=pk).delete()
+    return redirect('list-of-boardgames')
 
-    # return render(request, 'welcome/welcome.html',context=context)
+
+def add_to_fav(request, game_id):
+    Favourite.objects.create(user=request.user, game=Boardgame.objects.get(id=game_id))
+    return redirect('list-of-boardgames')
+
+
+class BoardgameCommentCreateView(CreateView):
+    template_name = 'boardgames/create_comment.html'
+    model = BoardgameComment
+    form_class = BoardgameCommentForm
+
+
+

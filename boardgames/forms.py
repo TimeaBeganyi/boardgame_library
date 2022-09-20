@@ -1,15 +1,14 @@
 from django import forms
-from django.forms import TextInput, Select, Textarea
+from django.forms import TextInput, Select, Textarea, SelectMultiple, HiddenInput
 
-from boardgames.models import Boardgame
+from boardgames.models import Boardgame, BoardgameComment
 
 
 class BoardgameForm(forms.ModelForm):
     class Meta:
         model = Boardgame
         fields = ['title', 'publication_year', 'max_players', 'best_players', 'player_age', 'playtime', 'weight',
-                  'designer', 'artists', 'language_dependence', 'description', 'types', 'categories', 'mechanics',
-                  'available', 'image']
+                  'designer', 'artists', 'language_dependence', 'description', 'available', 'image']
 
         widgets = {
             'title': TextInput(attrs={'placeholder': 'Please enter the title of the game', 'class': 'form-control'}),
@@ -29,12 +28,22 @@ class BoardgameForm(forms.ModelForm):
             'language_dependence': TextInput(
                 attrs={'placeholder': 'Please enter the language dependence of the game', 'class': 'form-control'}),
             'description': Textarea(attrs={'class': 'form-control'}),
-            'types': Select(attrs={'class': 'form-select'}),
-            'categories': Select(attrs={'class': 'form-select'}),
-            'mechanics': Select(attrs={'class': 'form-select'}),
+
 
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['image'].widget.attrs['class'] = 'form-control'
+
+
+class BoardgameCommentForm(forms.ModelForm):
+    class Meta:
+        model = BoardgameComment
+        fields=['title','owner','comment','rating']
+
+        widgets = {
+            # 'title': TextInput(attrs={'class': 'form-select'}),
+            # 'owner': TextInput(attrs={'class': 'form-select'}),
+            'comment': Textarea(attrs={'placeholder':'Please enter your comment', 'class':'form-control'}),
+        }
