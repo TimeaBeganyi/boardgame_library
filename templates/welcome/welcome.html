@@ -1,14 +1,79 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Welcome {% endblock %}
 
 {% block content %}
-    <h1 class="text-center"> Welcome to BoardGame Library </h1>
-    <figure class="text-end">
-        <blockquote class="blockquote">
-            <p>I have not failed. I've just found 10,000 ways that won't work.</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-            Thomas A. Edison <cite title="Source Title"></cite>
-        </figcaption>
-    </figure>
+    <section class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start">
+        <div class="container">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <div>
+                    <h1> Welcome to <span class="text-warning">BoardGame Library </span></h1>
+                    <p class="lead my-4">
+                        BoarGame Library is an online resource and community that aims to be the definitive source for
+                        board game and card game content.You can become a registered member of BGG for free, although we
+                        welcome
+                        your contributions to the site in the form of ratings, reviews, and thoughts on games to the
+                        existing
+                        database!</p>
+                    <button class="btn btn-outline-primary btn-lg" href="{% url 'list-of-boardgames' %}">Start
+                        browsing
+                    </button>
+                </div>
+                <img class="img-fluid w-50 d-none d-md-block" src="{% static 'images/board_game_shelf.jpg' %}" alt=""/>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-primary text-light p-5">
+        <div class="container">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <h3 class="mb-3 mb-md-0">Sign Up For Our Newsletter</h3>
+                <div class="input-group news-input">
+                    <input type="text" class="form-control" placeholder="Enter Email"/>
+                    <button class="btn btn-dark btn-lg" type="button">Button</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="p-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md">
+
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <div class="h1 mb-3">
+                                <i class="bi bi-laptop"></i>
+                            </div>
+                            <h3 class="card-title mb-3">
+                                7 Wonders
+                            </h3>
+                            <p class="card-text">
+
+                            </p>
+                            <a href="#" class="btn btn-outline-primary">Read
+                                more</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-muted">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-muted">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-muted">FAQ</a>
+                </li>
+            </ul>
+            <p class="text-center text-muted">2022 BoardGameLibrary, Inc</p>
+        </footer>
+    </div>
 {% endblock %}

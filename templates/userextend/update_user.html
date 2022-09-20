@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %} Create new user {% endblock %}
+{% block title %}
+    Update user
+{% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-6 offset-md-3 gy-4 mb-4 was-validated"><br><br><br>
+            <div class="col-md-6 offset-md-3 gy-4 mb-4 was-validated">
                 <div class="card mb-2 shadow">
                     <div class="card-header text-center">
-                        <h3>Create new user</h3>
+                        <h3>Update profile</h3>
                     </div>
                     <form method="post">
                         {% csrf_token %}
@@ -16,13 +18,15 @@
                             {{ form.as_p }}
                         </div>
                         <div class="card-footer">
-                            <a class="btn btn-outline-secondary" style="width: 150px" href="{% url 'login' %}">Cancel</a>
-                            <button type="submit" class="btn btn-outline-secondary float-end" style="width: 150px">Create user</button>
+                            <a class="btn btn-outline-primary" style="width: 100px"
+                               href="{% url 'detail-user' userextend.id %}">Cancel</a>
+                            <button type="submit" class="btn btn-outline-primary float-end"
+                                    style="width: 100px">Save
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}

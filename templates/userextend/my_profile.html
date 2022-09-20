@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} My Profile {% endblock %}
+
+{% block content %}
+
+    <main role="main">
+        <section>
+            <div class="container-fluid">
+                <div class="row m-4 p-4">
+                    <div class="col mx-auto">
+                        <h1 class="text-center">Welcome {{ userextend.first_name }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col-md gy-4">
+                        <div class="card shadow">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link avtive" aria-current="true"
+                                           href="{% url 'detail-user' request.user.id %}">My profile</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'update-user' userextend.id %}">Edit</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="{% url 'update-user-profile' userextend.userprofile.id %}">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'password_change' %}">Change password</a>
+                                    </li>
+                                </ul>
+                                <div class="card-body overflow-hidden">
+                                    <div class="row ">
+{#                                        <h5 class="card title">{{ userextend.first_name }} {{ userextend.last_name }}</h5>#}
+                                        <div class="col-2 m-2 gx-1" style="min-width: 140px">
+                                            {% if userextend.userprofile.profile_image %}
+                                                <img class="card-img"
+                                                     src="{{ userextend.userprofile.profile_image.url }}"
+                                                     alt="Card image cap"
+                                                     style="min-height: 138px; min-width: 138px">
+                                            {% else %}
+                                                <img class="card-img"
+                                                     src="{% static 'media/images/profiles/avatar.jpg' %}"
+                                                     alt="Card image cap"
+                                                     style="min-height: 138px; min-width: 138px">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col m-3 gx-1">
+                                            <p class="card-text">
+                                                Name: {{ userextend.first_name }} {{ userextend.last_name }}</p>
+
+                                            {% if userextend.userprofile.about %}
+                                                <p class="card-text">About: {{ userextend.userprofile.about }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

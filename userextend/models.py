@@ -12,3 +12,13 @@ class UserExtend(User):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(UserExtend, null=True, on_delete=models.CASCADE)
+
+    profile_image = models.ImageField(upload_to='profiles/', null=True, blank=True)
+    about = models.TextField(max_length=1000, blank=True)
+
+    def __str__(self):
+        return f'{self.user.first_name}'
