@@ -9,13 +9,19 @@
             <ul class="navbar-nav">
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'detail-user' request.user.id %}">My Profile</a>
+                        {% if request.user.id %}
+                            <a class="nav-link active" aria-current="page"
+                               href="{% url 'detail-user' request.user.id %}">My Profile</a>
+                        {% else %}
+                            <div id="liveAlertPlaceholder"></div>
+                            <button type="button" class="btn btn-primary" id="liveAlertBtn">My profile</button>
+                        {% endif %}
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">My Games</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Collection</a></li>
+                            <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}">Collection</a></li>
                             <li><a class="dropdown-item" href="#">Favourites</a></li>
                             <li><a class="dropdown-item" href="#">Wishlist</a></li>
                         </ul>
@@ -28,26 +34,31 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}">All BoardGames</a></li>
-                        <li><a class="dropdown-item" href="{% url 'create-boardgame' %}">Add a new game</a></li>
-                        <li><a class="dropdown-item" href="{% url 'list-of-games-bgg' %}">Add games from BGG</a></li>
-                        <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}?category=Abstract%20Strategy">Abstract
+
+                        {% if request.user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'create-boardgame' %}">Add a new game</a></li>
+                        {% endif %}
+                        {#                        <li><a class="dropdown-item" href="{% url 'list-of-games-bgg' %}">Add games from BGG</a></li>#}
+                        <li><a class="dropdown-item"
+                               href="{% url 'list-of-boardgames' %}?categories=Abstract%20Strategy">Abstract
                             and logical games</a></li>
-                        <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}?category=Card%20Game">Card
+                        <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}?categories=Card%20Game">Card
                             games</a></li>
-                        <li><a class="dropdown-item" href='{% url 'list-of-boardgames' %}?category=Children"s%20Game'>Children's
+                        <li><a class="dropdown-item" href='{% url 'list-of-boardgames' %}?categories=Children"s%20Game'>Children's
                             games</a></li>
-                        <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}?category=Party%20Game">Party
+                        <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}?categories=Party%20Game">Party
                             games</a></li>
-                        <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}?category=Strategy">Gamer/Strategy
+                        <li><a class="dropdown-item" href="{% url 'list-of-boardgames' %}?categories=Strategy">Gamer/Strategy
                             games</a></li>
                     </ul>
+
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">Help</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">About</a></li>
-                        <li><a class="dropdown-item" href="#">FAQ</a></li>
+                        <li><a class="dropdown-item" href="{% url 'about' %}">About</a></li>
+                        <li><a class="dropdown-item" href="{% url 'faq' %}">FAQ</a></li>
                     </ul>
                 </li>
             </ul>

@@ -5,7 +5,7 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4 gy-4">
+            <div class="col-md-4 gy-4"><br><br><br>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="text-center"> Filter </h3>
@@ -37,7 +37,7 @@
                                 <th>Playtime</th>
                                 <th>Player age</th>
                                 <th>Weight</th>
-                                <th>Designer</th>
+                                <th>Owner</th>
                                 <th>Category</th>
                             </tr>
                             </thead>
@@ -61,7 +61,7 @@
                                     <td>{{ game.playtime }}</td>
                                     <td>{{ game.player_age }}</td>
                                     <td>{{ game.weight }}</td>
-                                    <td>{{ game.designer }}</td>
+                                    <td>{{ game.owner }}</td>
                                     <td>{{ game.categories }}</td>
                                     <td>
                                         <div class="dropdown text-center">
@@ -74,6 +74,12 @@
                                                 </li>
                                                 <li><a href="{% url 'detail-boardgame' game.id %}"
                                                        class="dropdown-item">Details</a>
+                                                </li>
+                                                <li><a href="#"
+                                                       class="dropdown-item">Add to collection</a>
+                                                </li>
+                                                <li><a href="{% url 'add-to-fav' game.id %}"
+                                                       class="dropdown-item">Add to favorites</a>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item" data-bs-toggle="modal"

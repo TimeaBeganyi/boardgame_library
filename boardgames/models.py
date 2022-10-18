@@ -74,7 +74,7 @@ class Boardgame(models.Model):
     )
     owner = models.ForeignKey(UserExtend, on_delete=CASCADE, blank=True, null=True, related_name='boardgames')
     borrower = models.ForeignKey(UserExtend, on_delete=SET_NULL, blank=True, null=True)
-    # collection=
+
     image = models.ImageField(upload_to='images/', blank=True, null=True)
 
     available = models.BooleanField(default=True)
@@ -89,8 +89,11 @@ class Boardgame(models.Model):
 
 
 class Favourite(models.Model):
-    user = models.ForeignKey(UserExtend, on_delete=CASCADE, blank=True, null=True)
-    game = models.ForeignKey(Boardgame, on_delete=CASCADE, blank=True, null=True)
+    user = models.ForeignKey(UserExtend, on_delete=SET_NULL, blank=True, null=True)
+    game = models.ForeignKey(Boardgame, on_delete=SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.game.title}'
 
 
 RATING_CHOICES = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))
@@ -98,7 +101,7 @@ RATING_CHOICES = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))
 
 class BoardgameComment(models.Model):
     title = models.ForeignKey(Boardgame, on_delete=models.CASCADE, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey(UserExtend, on_delete=models.CASCADE, null=True)
     comment = models.TextField(max_length=300, null=True)
     rating = models.IntegerField(choices=RATING_CHOICES, blank=True)
 

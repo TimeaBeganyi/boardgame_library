@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} About Us {% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href={% static 'css/about_style.css' %}/>
+    <br><br>
+    <div class="about-section">
+        <h1>Sharing board games, made easy</h1>
+        <p>You are all part of a huge local board game library!</p>
+        <p>Games are no exception to the rule</p>
+        <div class="grid">
+            <p><span style="position: relative;">With thousands of games being developed every year, we buy box after
+                box and spend money almost without thinking about the games that will collect dust on out shelves.
+            </span></p>
+            <p><span style="position: relative;">We have the perfect solution: <span
+                    style="font-weight: bold;">SHARING</span>
+            <br>
+            Lending borrowing, trusting outsiders, these traditional practices are now making sense again.</span></p>
+            <h2>Discover Our Library without spending a penny</h2>
+        </div>
+    </div>
+    <h2 style="text-align:center"></h2>
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <img src="{% static 'media/images/register.jpg' %}" alt="Sign up" style="width:100%">
+                <div class="text-center container">
+                    <h2>Getting started is easy</h2>
+<br>
+                    <p>It's possible to lend your board games and explore those available to be borrowed without spending a penny.</p>
+                    <p>
+                        <button class="button"><i class="bi bi-geo"></i>  Create your free account</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <img src="{% static 'media/images/catan_share.jpeg' %}" alt="Share" style="width:100%">
+                <div class="text-center container">
+                    <h2>  Share your games</h2>
+                    <p>Add the games you wish to share. You define your own terms as well as the number of shared games you are willing to handle.</p>
+
+                    <p>
+                        <button class="button"><i class="bi bi-share"></i>   List of boardgames</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <img src="{% static 'media/images/explore.jpg' %}" alt="Explore" style="width:100%">
+                <div class="text-center container">
+                    <h3>Explore other players and their games</h3>
+                    <p>Watch for new users in your vicinity and browse the games they share.</p>
+
+                    <p>
+                        <button class="button">Explore</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

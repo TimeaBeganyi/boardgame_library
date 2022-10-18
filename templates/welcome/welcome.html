@@ -11,13 +11,15 @@
                     <p class="lead my-4">
                         BoarGame Library is an online resource and community that aims to be the definitive source for
                         board game and card game content.You can become a registered member of BGG for free, although we
-                        welcome
-                        your contributions to the site in the form of ratings, reviews, and thoughts on games to the
-                        existing
-                        database!</p>
-                    <button class="btn btn-outline-primary btn-lg" href="{% url 'list-of-boardgames' %}">Start
-                        browsing
-                    </button>
+                        welcome your contributions to the site in the form of ratings, reviews, and thoughts on games
+                        to the existing database!
+                    </p>
+                    <a href="{% url 'list-of-boardgames' %}" class="btn btn-outline-primary btn-lg">
+                        Start browsing
+                    </a>
+                    <a href="{% url 'index' %}" class="btn btn-outline-primary btn-lg">
+                        New entries
+                    </a>
                 </div>
                 <img class="img-fluid w-50 d-none d-md-block" src="{% static 'images/board_game_shelf.jpg' %}" alt=""/>
             </div>
@@ -35,11 +37,13 @@
             </div>
         </div>
     </section>
+
     <section class="p-5">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-md">
-                    {% for game in all_boardgames %}
+<div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+            {% for game in all_games %}
+
+                    <div class="col">
                         <div class="card bg-dark text-light">
                             <div class="card-body text-center">
                                 <div class="h1 mb-3">
@@ -48,6 +52,11 @@
                                 <h3 class="card-title mb-3">
                                     {{ game.title }}
                                 </h3>
+                                {% if game.image %}
+                                    <img src="{{ game.image }}" alt="{{ game.title }}" class="card-img-overlay">
+                                {% else %}
+                                    <img src="{% static 'images/dices.webp' %}" alt="...">
+                                {% endif %}
                                 <p class="card-text">
                                     {{ game.description|truncatewords:50 }}
                                 </p>
@@ -55,25 +64,11 @@
                                     more</a>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
-            </div>
+                    </div>
+
+            {% endfor %}
+</div>
         </div>
     </section>
-    <div class="container">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item">
-                    <a href="{% url 'welcome' %}" class="nav-link px-2 text-muted">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link px-2 text-muted">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link px-2 text-muted">FAQ</a>
-                </li>
-            </ul>
-            <p class="text-center text-muted">2022 BoardGameLibrary, Inc</p>
-        </footer>
-    </div>
+
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     Details {{ game.title }}
 {% endblock %}
@@ -8,9 +9,27 @@
         <div class="row">
             <div class="col-md-6 offset-md-3"><br><br><br>
                 <div class="card">
-                    <img src="{{ boardgame.image.url }}" class="card-img-top" alt="...">
+                    {% if boardgame.image %}
+                        <img src="{{ boardgame.image.url }}" alt="{{ boardgame.title }}" class="img-fluid rounded card-img-top">
+                    {% else %}
+                        <img src="{% static 'images/dices.webp' %}" class="img-fluid rounded card-img-top" alt="{{ boardgame.title }}">
+                    {% endif %}
+
                     <div class="card-header">
-                        <h4>{{ boardgame.title }}</h4>
+                        <h4>{{ boardgame.title }}
+                            {% if request.user in fav.favourite.all %}
+{#                                <a title="Remove favourite" href="{% url 'add-to-fav' %}"#}
+{#                                   class="link-muted"><i#}
+{#                                        class="bi bi-heart-fill ms-2"></i></a>#}
+                            {% else %}
+{#                                <a title="Add to favourites" href="{% url 'add-to-fav' user.id %}"#}
+{#                                   class="link-muted"><i#}
+{#                                        class="bi bi-heart ms-2"></i></a>#}
+                            {% endif %}
+                            <a title="Add to collection" href="#"
+                               class="link-muted"><i
+                                    class="bi bi-collection ms-2"></i></a>
+                        </h4>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ boardgame.publication_year }}</h5>
@@ -97,68 +116,99 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row align-items-center">
-                                    <div class="col-md-3 col-sm-3">
-                                        <label>Rate this game</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Users Rating</label>
                                     </div>
-                                    <div class="col-md-6 col-sm-5">
+                                    <div class="col-md-6">
                                         <div class="star-rating">
-                                            <input type="radio" id="star5" name="rate" value="5"/>
-                                            <label for="star5" title="5"></label>
-                                            <input type="radio" checked="checked" id="star4" name="rate" value="4"/>
-                                            <label for="star4" title="4"></label>
-                                            <input type="radio" id="star3" name="rate" value="3"/>
-                                            <label for="star3" title="3"></label>
-                                            <input type="radio" id="star2" name="rate" value="2"/>
-                                            <label for="star2" title="2"></label>
-                                            <input type="radio" id="star1" name="rate" value="1"/>
-                                            <label for="star1" title="1"></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-4">
-                                        <div class="add-review">
-                                            <div class="add-review-text">
-                                                Write your review!
-                                            </div>
-                                            <button type="submit" class="btn btn-outline-secondary js-i-add-review">
-                                                My comment
-                                            </button>
+                                            <h5>{{ rating|floatformat:1 }}</h5>
                                         </div>
                                     </div>
                                 </div>
                             </li>
+
                         </ul>
                     </div>
-                    <div id="review">
-
-                    </div>
-                    <div class="product-review-form js-product-review-form" style="display:none;" id="product-review-form">
-                        <div class="module-head" id="review_title">
-                            <h3 class="module-head-title">Add your review</h3>
-                        </div>
-                        <div class="module-body">
-                            <div class="content">
-                                <div class="form">
-                                    <form id="review-form" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        {{ form.as_p }}
-
-                                    </form>
-
-                                </div>
-                            </div>
-                            <div class="buttons">
-                                <button type="submit" class="btn btn-outline-secondary button js-add-review-submit">Next</button>
-                            </div>
-                        </div>
-
-                    </div>
                     <div class="card-footer text-center">
-                        <a href="{% url 'list-of-boardgames' %}" class="btn btn-outline-secondary">Back</a>
                         <a href="{% url 'create-comment' %}" class="btn btn-outline-secondary">Add a comment</a>
+                        <a href="{% url 'list-of-boardgames' %}" class="btn btn-outline-secondary">Back</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <section class="bg-dark bg-opacity-75 p-2 fw-light mb-4 pb-2">
+        <div class="container">
+            <div class="row">
+                <h3 class="p-2 fw-light text-white mb-4 pb-2">Latest Comments section by
+                    users</h3>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-12 col-lg-10">
+                        {% for comment in comments %}
+                            <div class="d-flex flex-start text-white">
+                                {#                                <img class="rounded-circle shadow-1-strong me-3"#}
+                                {#                                     src="{{ comment.owner.userprofile.profile_image }}"#}
+                                {#                                     alt="avatar" width="60"#}
+                                {#                                     height="60"/>#}
+                                <div>
+                                    <h6 class="fw-bold mb-1">{{ comment.owner }}</h6>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <p class="mb-0">
+                                            {{ comment.created_at }}
+                                        </p>
+                                        <a title="Add comment" href="{% url 'create-comment' %}">
+                                            <i class="bi bi-pencil ms-2 "></i></a>
+                                        <a title="Edit comment"
+                                           href="{% url 'update-comment' comment.id %}"
+                                           class="link-muted"><i
+                                                class="bi bi-arrow-clockwise ms-2"></i></a>
+                                        <a title="Delete comment" data-bs-toggle="modal"
+                                           data-bs-target="#comment_{{ comment.id }}"
+                                           class="link-muted"><i
+                                                class="bi bi-trash ms-2"></i></a>
+                                    </div>
+
+
+                                    <p class="mb-0">{{ comment.comment }}</p>
+                                </div>
+                                <div class="modal fade" id="comment_{{ comment.id }}" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                    Delete</h5>
+                                                <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to
+                                                delete {{ comment.comment }}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
+                                                    No
+                                                </button>
+                                                <a href="{% url 'delete-comment' comment.id %}"
+                                                   class="btn btn-primary">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br><br>
+
+                            <hr class="my-0"/>
+
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

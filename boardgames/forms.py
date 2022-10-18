@@ -29,7 +29,6 @@ class BoardgameForm(forms.ModelForm):
                 attrs={'placeholder': 'Please enter the language dependence of the game', 'class': 'form-control'}),
             'description': Textarea(attrs={'class': 'form-control'}),
 
-
         }
 
     def __init__(self, *args, **kwargs):
@@ -40,10 +39,9 @@ class BoardgameForm(forms.ModelForm):
 class BoardgameCommentForm(forms.ModelForm):
     class Meta:
         model = BoardgameComment
-        fields=['title','owner','comment','rating']
+        fields = ['title', 'owner', 'comment', 'rating']
 
         widgets = {
-            # 'title': TextInput(attrs={'class': 'form-select'}),
-            # 'owner': TextInput(attrs={'class': 'form-select'}),
-            'comment': Textarea(attrs={'placeholder':'Please enter your comment', 'class':'form-control'}),
+
+            'comment': Textarea(attrs={'placeholder': 'Please enter your comment', 'class': 'form-control'}),
         }
